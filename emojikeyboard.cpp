@@ -12,6 +12,9 @@
 #include <QJsonObject>
 #include <QJsonArray>
 #include <QString>
+#include <QCloseEvent>
+#include <QSystemTrayIcon>
+#include <QMenu>
 
 EmojiKeyboard::EmojiKeyboard(QWidget *parent) : QDialog(parent), ui(new Ui::EmojiKeyboard)
 {
@@ -46,10 +49,56 @@ EmojiKeyboard::EmojiKeyboard(QWidget *parent) : QDialog(parent), ui(new Ui::Emoj
             ui->stack->setCurrentWidget(ui->tabs);
         }
     });
+
+    if (QSystemTrayIcon::isSystemTrayAvailable()) {
+        QMenu *menu = new QMenu();
+
+        QAction *showAction = menu->addAction("Show");
+        showAction->connect(showAction, &QAction::triggered, this, &EmojiKeyboard::showActionTriggered);
+
+        QAction *quitAction = menu->addAction("Quit");
+        connect(quitAction, &QAction::triggered, this, &EmojiKeyboard::quitActionTriggered);
+
+        trayIcon = new QSystemTrayIcon(QIcon(":icon.png"));
+        trayIcon->setContextMenu(menu);
+        trayIcon->setToolTip("Emoji Keyboard");
+        trayIcon->show();
+
+        connect(trayIcon, &QSystemTrayIcon::activated, this, &EmojiKeyboard::iconActivated);
+    }
 }
 
 EmojiKeyboard::~EmojiKeyboard()
 {
     delete ui;
     Settings::saveSettings();
+}
+
+void EmojiKeyboard::iconActivated(QSystemTrayIcon::ActivationReason reason) {
+    if (reason == QSystemTrayIcon::ActivationReason::Trigger) {
+        show();
+    }
+}
+
+void EmojiKeyboard::showActionTriggered(bool checked) {
+    show();
+}
+
+void EmojiKeyboard::quitActionTriggered(bool checked) {
+    quit();
+}
+
+void EmojiKeyboard::quit()
+{
+    this->_closing = true;
+    this->close();
+}
+
+void EmojiKeyboard::reject()
+{
+    if (this->_closing) {
+        QDialog::reject();
+    } else {
+        this->hide();
+    }
 }
