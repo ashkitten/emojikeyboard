@@ -1,14 +1,23 @@
 #ifndef EMOJICONTAINER_H
 #define EMOJICONTAINER_H
 
-#include <QScrollArea>
+#include "flowlayout.h"
 
+#include <QScrollArea>
 
 class EmojiContainer : public QScrollArea
 {
     Q_OBJECT
 public:
-    explicit EmojiContainer(QWidget *parent, QJsonObject emojis);
+    EmojiContainer(QWidget *parent, QJsonArray emojis);
+    void addEmoji(QJsonObject emoji);
+    void removeEmoji(QJsonObject emoji);
+    bool hasEmoji(QJsonObject emoji);
+    void clear();
+
+private:
+    FlowLayout *flowLayout;
+    QWidget *flowWidget;
 
 signals:
 

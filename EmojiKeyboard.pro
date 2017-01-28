@@ -28,15 +28,21 @@ SOURCES += main.cpp\
     flowlayout.cpp \
     emojicontainer.cpp \
     emojibutton.cpp \
-    emojipopup.cpp
+    emojipopup.cpp \
+    settings.cpp \
+    util.cpp
 
 HEADERS  += emojikeyboard.h \
     flowlayout.h \
     emojicontainer.h \
     emojibutton.h \
-    emojipopup.h
+    emojipopup.h \
+    settings.h \
+    util.h
 
 FORMS    += emojikeyboard.ui \
     emojipopup.ui
 
-RESOURCES = resources.qrc
+RESOURCES += resources.qrc
+
+CONFIG += resources_big

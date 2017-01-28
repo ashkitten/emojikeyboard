@@ -11,9 +11,8 @@ class EmojiPopup;
 class EmojiPopup : public QDialog
 {
     Q_OBJECT
-
 public:
-    explicit EmojiPopup(QWidget *parent, QJsonObject emoji);
+    EmojiPopup(QWidget *parent, QJsonObject emoji);
     ~EmojiPopup();
 
 private:

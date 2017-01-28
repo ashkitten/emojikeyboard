@@ -10,9 +10,8 @@ class EmojiKeyboard;
 class EmojiKeyboard : public QDialog
 {
     Q_OBJECT
-
 public:
-    explicit EmojiKeyboard(QWidget *parent = 0);
+    EmojiKeyboard(QWidget *parent = nullptr);
     ~EmojiKeyboard();
 
 private:

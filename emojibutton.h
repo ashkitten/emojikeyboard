@@ -6,8 +6,10 @@
 
 class EmojiButton : public QPushButton
 {
+    Q_OBJECT
 public:
-    explicit EmojiButton(QWidget *parent, QJsonObject emoji);
+    EmojiButton(QWidget *parent, QJsonObject emoji);
+    QJsonObject emoji;
 };
 
 #endif // EMOJIBUTTON_H

@@ -6,30 +6,36 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>250</height>
+    <width>500</width>
+    <height>300</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>EmojiKeyboard</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <widget class="QLineEdit" name="searchBox"/>
-   </item>
-   <item row="0" column="1">
+   <item row="1" column="1">
     <widget class="QPushButton" name="settingsButton">
      <property name="text">
       <string/>
      </property>
      <property name="icon">
       <iconset resource="resources.qrc">
-       <normaloff>:/images/ic_settings_black_18dp.png</normaloff>:/images/ic_settings_black_18dp.png</iconset>
+       <normaloff>:/images/ic_settings_black_24px.svg</normaloff>:/images/ic_settings_black_24px.svg</iconset>
      </property>
     </widget>
    </item>
-   <item row="1" column="0" colspan="2">
-    <widget class="QTabWidget" name="tabWidget"/>
+   <item row="2" column="0" colspan="2">
+    <widget class="QStackedWidget" name="stack">
+     <widget class="QTabWidget" name="tabs"/>
+    </widget>
+   </item>
+   <item row="1" column="0">
+    <widget class="QLineEdit" name="searchBox">
+     <property name="placeholderText">
+      <string>Search</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>

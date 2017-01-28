@@ -47,7 +47,13 @@
      </property>
      <property name="icon">
       <iconset resource="resources.qrc">
-       <normaloff>:/images/ic_content_copy_black_18dp.png</normaloff>:/images/ic_content_copy_black_18dp.png</iconset>
+       <normaloff>:/images/ic_content_copy_black_24px.svg</normaloff>:/images/ic_content_copy_black_24px.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>24</width>
+       <height>24</height>
+      </size>
      </property>
     </widget>
    </item>
@@ -58,7 +64,13 @@
      </property>
      <property name="icon">
       <iconset resource="resources.qrc">
-       <normaloff>:/images/ic_favorite_border_black_18dp.png</normaloff>:/images/ic_favorite_border_black_18dp.png</iconset>
+       <normaloff>:/images/ic_favorite_border_black_24px.svg</normaloff>:/images/ic_favorite_border_black_24px.svg</iconset>
+     </property>
+     <property name="iconSize">
+      <size>
+       <width>24</width>
+       <height>24</height>
+      </size>
      </property>
     </widget>
    </item>
