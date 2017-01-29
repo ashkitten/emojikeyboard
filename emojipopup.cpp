@@ -11,6 +11,8 @@ EmojiPopup::EmojiPopup(QWidget *parent, QJsonObject emoji) : QDialog(parent), ui
 {
     ui->setupUi(this);
 
+    setWindowTitle(emoji["name"].toString());
+
     ui->emojiName->setText(emoji["name"].toString());
     ui->emojiUnicode->setText("U+" + emoji["unicode"].toString().toUpper());
 

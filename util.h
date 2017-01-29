@@ -8,6 +8,7 @@ class Util
 {
 public:
     static void init();
+    static int levenshtein(QString s1, QString s2);
 
     static QJsonArray categories;
     static QJsonObject categoryMap;

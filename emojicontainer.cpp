@@ -6,10 +6,12 @@
 #include <QWidget>
 #include <QJsonArray>
 
+#include <QDebug>
+
 EmojiContainer::EmojiContainer(QWidget *parent, QJsonArray emojis) : QScrollArea(parent)
 {
-    flowLayout = new FlowLayout();
-    flowWidget = new QWidget();
+    flowLayout = new FlowLayout(this);
+    flowWidget = new QWidget(this);
     flowWidget->setLayout(flowLayout);
     this->setWidget(flowWidget);
     this->setWidgetResizable(true);

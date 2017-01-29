@@ -39,11 +39,27 @@ EmojiKeyboard::EmojiKeyboard(QWidget *parent) : QDialog(parent), ui(new Ui::Emoj
             ui->stack->setCurrentWidget(searchPage);
             searchPage->clear();
 
+            QList<QJsonObject> searchResults;
+
             for (QJsonObject::iterator iter = Util::emojiMap.begin(); iter != Util::emojiMap.end(); iter++) {
                 QJsonObject emoji = iter.value().toObject();
-                if (emoji["name"].toString().contains(text)) {
-                    searchPage->addEmoji(emoji);
+
+                QString keywords;
+                for (QJsonValue val : emoji["keywords"].toArray()) {
+                    keywords += val.toString();
                 }
+
+                if (emoji["name"].toString().contains(text) || keywords.contains(text)) {
+                    searchResults.append(emoji);
+                }
+            }
+
+            std::sort(searchResults.begin(), searchResults.end(), [text](QJsonObject v1, QJsonObject v2) {
+                return Util::levenshtein(v1["name"].toString(), text) < Util::levenshtein(v2["name"].toString(), text);
+            });
+
+            for (QJsonObject emoji : searchResults) {
+                searchPage->addEmoji(emoji);
             }
         } else {
             ui->stack->setCurrentWidget(ui->tabs);
@@ -59,7 +75,7 @@ EmojiKeyboard::EmojiKeyboard(QWidget *parent) : QDialog(parent), ui(new Ui::Emoj
         QAction *quitAction = menu->addAction("Quit");
         connect(quitAction, &QAction::triggered, this, &EmojiKeyboard::quitActionTriggered);
 
-        trayIcon = new QSystemTrayIcon(QIcon(":icon.png"));
+        QSystemTrayIcon *trayIcon = new QSystemTrayIcon(QIcon(":icon.png"));
         trayIcon->setContextMenu(menu);
         trayIcon->setToolTip("Emoji Keyboard");
         trayIcon->show();

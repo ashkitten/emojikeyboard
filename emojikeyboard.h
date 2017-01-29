@@ -24,7 +24,6 @@ private slots:
 
 private:
     Ui::EmojiKeyboard *ui;
-    QSystemTrayIcon *trayIcon;
     bool _closing = false;
 };
 

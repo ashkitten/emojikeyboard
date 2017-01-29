@@ -18,10 +18,6 @@ public:
 private:
     FlowLayout *flowLayout;
     QWidget *flowWidget;
-
-signals:
-
-public slots:
 };
 
 #endif // EMOJICONTAINER_H
