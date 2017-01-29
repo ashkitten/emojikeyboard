@@ -97,7 +97,7 @@ EmojiKeyboard::EmojiKeyboard(QWidget *parent) : QDialog(parent), ui(new Ui::Emoj
 
         if (!Settings::getBool("notFirstRun")) {
             Settings::putBool("notFirstRun", true);
-            trayIcon->showMessage("Emoji Keyboard", "Right click this icon for quick access.");
+            trayIcon->showMessage("Emoji Keyboard", "Right click the tray icon for quick access.");
         }
     }
 
@@ -110,6 +110,8 @@ EmojiKeyboard::EmojiKeyboard(QWidget *parent) : QDialog(parent), ui(new Ui::Emoj
     connect(ui->backButton, &QPushButton::clicked, [this](bool checked) {
         ui->mainStack->setCurrentWidget(ui->mainPage);
     });
+
+    ui->searchBox->setFocus();
 }
 
 EmojiKeyboard::~EmojiKeyboard()
