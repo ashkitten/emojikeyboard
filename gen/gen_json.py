@@ -1,5 +1,5 @@
 from collections import OrderedDict
-import json, os, itertools
+import json, os
 
 with open(os.path.join(os.path.dirname(__file__), "emoji-data/emojione/emoji.json")) as f:
     emojione_json = json.load(f)
@@ -14,8 +14,13 @@ tone_modifiers = [
     "1f3ff"
 ]
 
+def uniq(seq):
+    seen = set()
+    seen_add = seen.add
+    return [x for x in seq if not (x in seen or seen_add(x))]
+
 emoji_dict = {
-    "categories": [category.title() for category in [key for key, group in itertools.groupby([emojione["category"] for key, emojione in emojione_json.items() if emojione["category"] != "modifier"])]],
+    "categories": [category.title() for category in uniq([emojione["category"] for key, emojione in emojione_json.items() if emojione["category"] != "modifier"])],
      "categoryMap": {
         category.title(): [
             {
@@ -27,7 +32,7 @@ emoji_dict = {
                 "hasToneModifiers": bool(next(iter([emojidata.get("skin_variations") for emojidata in emojidata_json if emojidata["unified"].lower() == emojione["unicode"].lower()]), None)) or emojione["unicode"].split("-")[-1].lower() in tone_modifiers,
                 "isToneModifier": emojione["unicode"].split("-")[-1].lower() in tone_modifiers
             } for key, emojione in emojione_json.items() if emojione["category"] == category
-        ] for category in [key for key, group in itertools.groupby([emojione["category"] for key, emojione in emojione_json.items() if emojione["category"] != "modifier"])]
+        ] for category in uniq([emojione["category"] for key, emojione in emojione_json.items() if emojione["category"] != "modifier"])
     },
     "emojis": [emojione["unicode"] for key, emojione in emojione_json.items() if emojione["category"] != "modifier"],
     "emojiMap": {

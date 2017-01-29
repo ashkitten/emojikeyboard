@@ -14,27 +14,39 @@
    <string>EmojiKeyboard</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="1">
-    <widget class="QPushButton" name="settingsButton">
-     <property name="text">
-      <string/>
+   <item row="0" column="0">
+    <widget class="QStackedWidget" name="stackedWidget">
+     <property name="currentIndex">
+      <number>0</number>
      </property>
-     <property name="icon">
-      <iconset resource="resources.qrc">
-       <normaloff>:/images/ic_settings_black_24px.svg</normaloff>:/images/ic_settings_black_24px.svg</iconset>
-     </property>
-    </widget>
-   </item>
-   <item row="2" column="0" colspan="2">
-    <widget class="QStackedWidget" name="stack">
-     <widget class="QTabWidget" name="tabs"/>
-    </widget>
-   </item>
-   <item row="1" column="0">
-    <widget class="QLineEdit" name="searchBox">
-     <property name="placeholderText">
-      <string>Search</string>
-     </property>
+     <widget class="QWidget" name="mainPage">
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0">
+        <widget class="QLineEdit" name="searchBox">
+         <property name="placeholderText">
+          <string>Search</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="settingsButton">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="icon">
+          <iconset resource="resources.qrc">
+           <normaloff>:/images/ic_settings_black_24px.svg</normaloff>:/images/ic_settings_black_24px.svg</iconset>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QStackedWidget" name="stack">
+         <widget class="QTabWidget" name="tabs"/>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="settingsPage"/>
     </widget>
    </item>
   </layout>

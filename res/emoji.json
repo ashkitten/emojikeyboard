@@ -7,10 +7,7 @@
         "Travel",
         "Objects",
         "Symbols",
-        "Flags",
-        "People",
-        "Activity",
-        "People"
+        "Flags"
     ],
     "categoryMap": {
         "People": [
