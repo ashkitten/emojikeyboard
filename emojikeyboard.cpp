@@ -16,12 +16,16 @@
 #include <QSystemTrayIcon>
 #include <QMenu>
 
+#include <QDebug>
+
 EmojiKeyboard::EmojiKeyboard(QWidget *parent) : QDialog(parent), ui(new Ui::EmojiKeyboard)
 {
     ui->setupUi(this);
 
     Util::init();
     Settings::loadSettings();
+
+    setWindowIcon(QIcon(":icon.png"));
 
     ui->tabs->addTab(Settings::favoritesPage, QIcon(":emoji/png_64/1f496.png"), "Favorites");
 
@@ -37,19 +41,14 @@ EmojiKeyboard::EmojiKeyboard(QWidget *parent) : QDialog(parent), ui(new Ui::Emoj
     connect(ui->searchBox, &QLineEdit::textChanged, [this, searchPage](QString text) {
         if (text.length() > 0) {
             ui->stack->setCurrentWidget(searchPage);
+
             searchPage->clear();
 
             QList<QJsonObject> searchResults;
-
             for (QJsonObject::iterator iter = Util::emojiMap.begin(); iter != Util::emojiMap.end(); iter++) {
                 QJsonObject emoji = iter.value().toObject();
 
-                QString keywords;
-                for (QJsonValue val : emoji["keywords"].toArray()) {
-                    keywords += val.toString();
-                }
-
-                if (emoji["name"].toString().contains(text) || keywords.contains(text)) {
+                if (emoji["name"].toString().contains(text) || emoji["keywords"].toString().contains(text)) {
                     searchResults.append(emoji);
                 }
             }

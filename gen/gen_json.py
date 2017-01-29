@@ -20,7 +20,7 @@ emoji_dict = {
         category.title(): [
             {
                 "name": emojione["name"].title(),
-                "keywords": emojione["keywords"],
+                "keywords": ",".join(emojione["keywords"]),
                 "unicode": emojione["unicode"],
                 "characters": "".join([chr(int(codepoint, 16)) for codepoint in emojione["unicode"].split("-")]),
                 "category": emojione["category"].title(),
@@ -33,7 +33,7 @@ emoji_dict = {
     "emojiMap": {
         emojione["unicode"]: {
             "name": emojione["name"].title(),
-            "keywords": emojione["keywords"],
+            "keywords": ",".join(emojione["keywords"]),
             "unicode": emojione["unicode"],
             "characters": "".join([chr(int(codepoint, 16)) for codepoint in emojione["unicode"].split("-")]),
             "category": emojione["category"].title(),

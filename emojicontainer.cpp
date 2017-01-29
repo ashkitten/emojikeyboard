@@ -48,5 +48,5 @@ bool EmojiContainer::hasEmoji(QJsonObject emoji)
 
 void EmojiContainer::clear()
 {
-    qDeleteAll(flowWidget->children());
+    qDeleteAll(flowWidget->findChildren<EmojiButton*>());
 }

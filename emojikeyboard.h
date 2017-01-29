@@ -1,6 +1,8 @@
 #ifndef EMOJIKEYBOARD_H
 #define EMOJIKEYBOARD_H
 
+#include "emojicontainer.h"
+
 #include <QDialog>
 #include <QSystemTrayIcon>
 
