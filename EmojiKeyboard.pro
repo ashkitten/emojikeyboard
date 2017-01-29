@@ -47,4 +47,4 @@ RESOURCES += resources.qrc
 
 CONFIG += resources_big
 
-RC_FILE = app.rc
+RC_ICONS = icon.ico
