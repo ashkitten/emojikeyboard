@@ -15,6 +15,7 @@
 #include <QCloseEvent>
 #include <QSystemTrayIcon>
 #include <QMenu>
+#include <QSpinBox>
 
 #include <QDebug>
 
@@ -25,17 +26,27 @@ EmojiKeyboard::EmojiKeyboard(QWidget *parent) : QDialog(parent), ui(new Ui::Emoj
     Util::init();
     Settings::loadSettings();
 
+    ui->emojiSize->setValue(Settings::getInt("emojiSize", 24));
+    connect(ui->emojiSize, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), [](int size) {
+        Settings::putInt("emojiSize", size);
+    });
+
     setWindowIcon(QIcon(":icon.png"));
 
     ui->tabs->addTab(Settings::favoritesPage, QIcon(":emoji/png_64/1f496.png"), "Favorites");
+    connect(ui->emojiSize, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), Settings::favoritesPage, &EmojiContainer::setEmojiSize);
 
     for (QJsonArray::iterator iter = Util::categories.begin(); iter != Util::categories.end(); iter++) {
         QJsonArray category = Util::categoryMap[iter->toString()].toArray();
         QString iconPath = ":emoji/png_64/" + category.at(0).toObject()["unicode"].toString() + ".png";
-        ui->tabs->addTab(new EmojiContainer(ui->tabs, category), QIcon(iconPath), iter->toString());
+
+        EmojiContainer *container = new EmojiContainer(ui->tabs, category);
+        connect(ui->emojiSize, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), container, &EmojiContainer::setEmojiSize);
+        ui->tabs->addTab(container, QIcon(iconPath), iter->toString());
     }
 
     EmojiContainer *searchPage = new EmojiContainer(ui->stack, QJsonArray());
+    connect(ui->emojiSize, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), searchPage, &EmojiContainer::setEmojiSize);
     ui->stack->addWidget(searchPage);
 
     connect(ui->searchBox, &QLineEdit::textChanged, [this, searchPage](QString text) {
@@ -68,6 +79,9 @@ EmojiKeyboard::EmojiKeyboard(QWidget *parent) : QDialog(parent), ui(new Ui::Emoj
     if (QSystemTrayIcon::isSystemTrayAvailable()) {
         QMenu *menu = new QMenu();
 
+        QAction *favoritesAction = menu->addAction("Favorites");
+        favoritesAction->setMenu(Settings::favoritesTrayMenu);
+
         QAction *showAction = menu->addAction("Show");
         showAction->connect(showAction, &QAction::triggered, this, &EmojiKeyboard::showActionTriggered);
 
@@ -80,7 +94,22 @@ EmojiKeyboard::EmojiKeyboard(QWidget *parent) : QDialog(parent), ui(new Ui::Emoj
         trayIcon->show();
 
         connect(trayIcon, &QSystemTrayIcon::activated, this, &EmojiKeyboard::iconActivated);
+
+        if (!Settings::getBool("notFirstRun")) {
+            Settings::putBool("notFirstRun", true);
+            trayIcon->showMessage("Emoji Keyboard", "Right click this icon for quick access.");
+        }
     }
+
+    ui->tabs->setCurrentIndex(1);
+
+    connect(ui->settingsButton, &QPushButton::clicked, [this](bool checked) {
+        ui->mainStack->setCurrentWidget(ui->settingsPage);
+    });
+
+    connect(ui->backButton, &QPushButton::clicked, [this](bool checked) {
+        ui->mainStack->setCurrentWidget(ui->mainPage);
+    });
 }
 
 EmojiKeyboard::~EmojiKeyboard()
@@ -95,11 +124,13 @@ void EmojiKeyboard::iconActivated(QSystemTrayIcon::ActivationReason reason) {
     }
 }
 
-void EmojiKeyboard::showActionTriggered(bool checked) {
+void EmojiKeyboard::showActionTriggered(bool checked)
+{
     show();
 }
 
-void EmojiKeyboard::quitActionTriggered(bool checked) {
+void EmojiKeyboard::quitActionTriggered(bool checked)
+{
     quit();
 }
 

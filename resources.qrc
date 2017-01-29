@@ -1,6 +1,7 @@
 <!DOCTYPE RCC><RCC version="1.0">
 <qresource>
     <file alias="images/ic_content_copy_black_24px.svg">res/images/ic_content_copy_black_24px.svg</file>
+    <file alias="images/ic_arrow_back_black_24px.svg">res/images/ic_arrow_back_black_24px.svg</file>
     <file alias="images/transparent-background.png">res/images/transparent-background.png</file>
     <file alias="images/ic_favorite_black_24px.svg">res/images/ic_favorite_black_24px.svg</file>
     <file alias="images/ic_settings_black_24px.svg">res/images/ic_settings_black_24px.svg</file>

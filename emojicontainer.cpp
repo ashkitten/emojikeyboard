@@ -1,6 +1,7 @@
 #include "emojicontainer.h"
 #include "emojibutton.h"
 #include "flowlayout.h"
+#include "settings.h"
 
 #include <QScrollArea>
 #include <QWidget>
@@ -10,6 +11,8 @@
 
 EmojiContainer::EmojiContainer(QWidget *parent, QJsonArray emojis) : QScrollArea(parent)
 {
+    emojiSize = Settings::getInt("emojiSize", 24);
+
     flowLayout = new FlowLayout(this);
     flowWidget = new QWidget(this);
     flowWidget->setLayout(flowLayout);
@@ -17,13 +20,15 @@ EmojiContainer::EmojiContainer(QWidget *parent, QJsonArray emojis) : QScrollArea
     this->setWidgetResizable(true);
 
     for (QJsonArray::iterator iter = emojis.begin(); iter != emojis.end(); iter++) {
-        flowLayout->addWidget(new EmojiButton(flowWidget, iter->toObject()));
+        flowLayout->addWidget(new EmojiButton(flowWidget, iter->toObject(), emojiSize));
     }
 }
 
-void EmojiContainer::addEmoji(QJsonObject emoji)
+EmojiButton *EmojiContainer::addEmoji(QJsonObject emoji)
 {
-    flowLayout->addWidget(new EmojiButton(flowWidget, emoji));
+    EmojiButton *button = new EmojiButton(flowWidget, emoji, emojiSize);
+    flowLayout->addWidget(button);
+    return button;
 }
 
 void EmojiContainer::removeEmoji(QJsonObject emoji)
@@ -49,4 +54,12 @@ bool EmojiContainer::hasEmoji(QJsonObject emoji)
 void EmojiContainer::clear()
 {
     qDeleteAll(flowWidget->findChildren<EmojiButton*>());
+}
+
+void EmojiContainer::setEmojiSize(int size)
+{
+    emojiSize = size;
+    for (EmojiButton *button : flowWidget->findChildren<EmojiButton*>()) {
+        button->setEmojiSize(size);
+    }
 }
