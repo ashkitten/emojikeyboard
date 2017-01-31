@@ -4,6 +4,7 @@
 #include "settings.h"
 
 #include <QClipboard>
+#include <QSvgWidget>
 
 using namespace std;
 
@@ -16,8 +17,8 @@ EmojiPopup::EmojiPopup(QWidget *parent, QJsonObject emoji) : QDialog(parent), ui
     ui->emojiName->setText(emoji["name"].toString());
     ui->emojiUnicode->setText("U+" + emoji["unicode"].toString().toUpper());
 
-    QPixmap pixmap(":emoji/png_512/" + emoji["unicode"].toString() + ".png");
-    ui->emojiImage->setPixmap(pixmap);
+    QSvgWidget *emojiImage = new QSvgWidget(":emoji/svg/" + emoji["unicode"].toString() + ".svg");
+    ui->gridLayout->addWidget(emojiImage, 2, 0, 1, 3);
 
     if (Settings::isFavorite(emoji)) {
         ui->favoriteButton->setIcon(QIcon(":images/ic_favorite_black_24px.svg"));

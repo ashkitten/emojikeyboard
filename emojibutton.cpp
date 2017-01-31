@@ -9,7 +9,7 @@ EmojiButton::EmojiButton(QWidget *parent, QJsonObject emoji, int size) : QPushBu
 {
     this->emoji = emoji;
 
-    QIcon icon(":emoji/png_64/" + emoji["unicode"].toString() + ".png");
+    QIcon icon(":emoji/svg/" + emoji["unicode"].toString() + ".svg");
     setIcon(icon);
     setIconSize(QSize(size, size));
 

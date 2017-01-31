@@ -1,7 +1,11 @@
 cd ${BASH_SOURCE%/*}
 
-cp -r ./emoji-data/emojione/assets/png/ ../res/emoji/png_64
-cp -r ./emoji-data/emojione/assets/png_512x512 ../res/emoji/png_512
+rm -rf ../res/
+
+mkdir -p ../res/emoji/
+cp -r ./emoji-data/emojione/assets/svg/ ../res/emoji/svg
+
+cp -r ./static/* ../res/
 
 python3 ./gen_json.py
 mv ./emoji.json ../res/emoji.json

@@ -90,7 +90,7 @@ void Settings::addFavorite(QJsonObject emoji)
     favoritesPage->addEmoji(emoji);
 
     QAction *favoriteAction = favoritesTrayMenu->addAction(emoji["name"].toString().left(16) + ((emoji["name"].toString().length() > 16) ? "..." : ""));
-    favoriteAction->setIcon(QIcon(":emoji/png_64/" + emoji["unicode"].toString() + ".png"));
+    favoriteAction->setIcon(QIcon(":emoji/svg/" + emoji["unicode"].toString() + ".svg"));
     favoriteAction->setData(QVariant(emoji["unicode"].toString()));
     favoritesTrayMenu->connect(favoriteAction, &QAction::triggered, [emoji](bool checked) {
         QClipboard *clipboard = QApplication::clipboard();

@@ -40,7 +40,7 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="3" rowspan="2">
+   <item row="0" column="2" rowspan="2">
     <widget class="QPushButton" name="copyButton">
      <property name="text">
       <string/>
@@ -57,7 +57,7 @@
      </property>
     </widget>
    </item>
-   <item row="0" column="2" rowspan="2">
+   <item row="0" column="1" rowspan="2">
     <widget class="QPushButton" name="favoriteButton">
      <property name="text">
       <string/>
@@ -74,24 +74,18 @@
      </property>
     </widget>
    </item>
-   <item row="2" column="0" colspan="4">
-    <widget class="QLabel" name="emojiImage">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>0</verstretch>
-      </sizepolicy>
+   <item row="2" column="0" colspan="3">
+    <spacer name="verticalSpacer">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
-     <property name="text">
-      <string/>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>40</height>
+      </size>
      </property>
-     <property name="pixmap">
-      <pixmap resource="resources.qrc">:/emoji/png_512/1f4a9.png</pixmap>
-     </property>
-     <property name="scaledContents">
-      <bool>false</bool>
-     </property>
-    </widget>
+    </spacer>
    </item>
   </layout>
  </widget>

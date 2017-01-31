@@ -33,12 +33,12 @@ EmojiKeyboard::EmojiKeyboard(QWidget *parent) : QDialog(parent), ui(new Ui::Emoj
 
     setWindowIcon(QIcon(":icon.png"));
 
-    ui->tabs->addTab(Settings::favoritesPage, QIcon(":emoji/png_64/1f496.png"), "Favorites");
+    ui->tabs->addTab(Settings::favoritesPage, QIcon(":emoji/svg/1f496.svg"), "Favorites");
     connect(ui->emojiSize, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), Settings::favoritesPage, &EmojiContainer::setEmojiSize);
 
     for (QJsonArray::iterator iter = Util::categories.begin(); iter != Util::categories.end(); iter++) {
         QJsonArray category = Util::categoryMap[iter->toString()].toArray();
-        QString iconPath = ":emoji/png_64/" + category.at(0).toObject()["unicode"].toString() + ".png";
+        QString iconPath = ":emoji/svg/" + category.at(0).toObject()["unicode"].toString() + ".svg";
 
         EmojiContainer *container = new EmojiContainer(ui->tabs, category);
         connect(ui->emojiSize, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), container, &EmojiContainer::setEmojiSize);
