@@ -68,9 +68,7 @@ EmojiKeyboard::EmojiKeyboard(QWidget *parent) : QDialog(parent), ui(new Ui::Emoj
                 return Util::levenshtein(v1["name"].toString(), text) < Util::levenshtein(v2["name"].toString(), text);
             });
 
-            for (QJsonObject emoji : searchResults) {
-                searchPage->addEmoji(emoji);
-            }
+            searchPage->addEmojis(searchResults);
         } else {
             ui->stack->setCurrentWidget(ui->tabs);
         }

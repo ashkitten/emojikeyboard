@@ -1,3 +1,5 @@
+cd ${BASH_SOURCE%/*}
+
 cp -r ./emoji-data/emojione/assets/png/ ../res/emoji/png_64
 cp -r ./emoji-data/emojione/assets/png_512x512 ../res/emoji/png_512
 

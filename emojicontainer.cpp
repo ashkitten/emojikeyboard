@@ -51,6 +51,15 @@ bool EmojiContainer::hasEmoji(QJsonObject emoji)
     return false;
 }
 
+void EmojiContainer::addEmojis(QList<QJsonObject> emojis)
+{
+    hide();
+    for (QJsonObject emoji : emojis) {
+        addEmoji(emoji);
+    }
+    show();
+}
+
 void EmojiContainer::clear()
 {
     qDeleteAll(flowWidget->findChildren<EmojiButton*>());

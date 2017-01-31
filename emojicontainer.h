@@ -14,6 +14,7 @@ public:
     EmojiButton *addEmoji(QJsonObject emoji);
     void removeEmoji(QJsonObject emoji);
     bool hasEmoji(QJsonObject emoji);
+    void addEmojis(QList<QJsonObject> emojis);
     void clear();
 
 public slots:
