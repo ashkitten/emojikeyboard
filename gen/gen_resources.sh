@@ -3,7 +3,7 @@ cd ${BASH_SOURCE%/*}
 rm -rf ../res/
 
 mkdir -p ../res/emoji/
-cp -r ./emoji-data/emojione/assets/svg/ ../res/emoji/svg
+cp -r ./twemoji/2/svg/ ../res/emoji/svg
 
 cp -r ./static/* ../res/
 

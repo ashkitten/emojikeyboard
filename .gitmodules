@@ -1,3 +1,9 @@
 [submodule "gen/emoji-data"]
     path = gen/emoji-data
     url = git@github.com:iamcal/emoji-data.git
+[submodule "gen/emojilib"]
+	path = gen/emojilib
+	url = https://github.com/muan/emojilib.git
+[submodule "gen/twemoji"]
+	path = gen/twemoji
+	url = https://github.com/twitter/twemoji.git

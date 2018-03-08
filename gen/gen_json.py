@@ -1,10 +1,11 @@
 from collections import OrderedDict
 import json, os
 
-with open(os.path.join(os.path.dirname(__file__), "emoji-data/emojione/emoji.json")) as f:
-    emojione_json = json.load(f)
+with open(os.path.join(os.path.dirname(__file__), "emojilib/emojis.json")) as f:
+    emojilib = json.load(f)
+
 with open(os.path.join(os.path.dirname(__file__), "emoji-data/emoji.json")) as f:
-    emojidata_json = json.load(f)
+    emojidata = json.load(f)
 
 tone_modifiers = [
     "1f3fb",
@@ -19,34 +20,50 @@ def uniq(seq):
     seen_add = seen.add
     return [x for x in seq if not (x in seen or seen_add(x))]
 
+categories = [category for category in uniq([emoji["category"] for emoji in emojidata if emoji["category"] != "Skin Tones"])]
+
 emoji_dict = {
-    "categories": [category.title() for category in uniq([emojione["category"] for key, emojione in emojione_json.items() if emojione["category"] != "modifier"])],
-     "categoryMap": {
-        category.title(): [
-            {
-                "name": emojione["name"].title(),
-                "keywords": ",".join(emojione["keywords"]),
-                "unicode": emojione["unicode"],
-                "characters": "".join([chr(int(codepoint, 16)) for codepoint in emojione["unicode"].split("-")]),
-                "category": emojione["category"].title(),
-                "hasToneModifiers": bool(next(iter([emojidata.get("skin_variations") for emojidata in emojidata_json if emojidata["unified"].lower() == emojione["unicode"].lower()]), None)) or emojione["unicode"].split("-")[-1].lower() in tone_modifiers,
-                "isToneModifier": emojione["unicode"].split("-")[-1].lower() in tone_modifiers
-            } for key, emojione in emojione_json.items() if emojione["category"] == category
-        ] for category in uniq([emojione["category"] for key, emojione in emojione_json.items() if emojione["category"] != "modifier"])
-    },
-    "emojis": [emojione["unicode"] for key, emojione in emojione_json.items() if emojione["category"] != "modifier"],
-    "emojiMap": {
-        emojione["unicode"]: {
-            "name": emojione["name"].title(),
-            "keywords": ",".join(emojione["keywords"]),
-            "unicode": emojione["unicode"],
-            "characters": "".join([chr(int(codepoint, 16)) for codepoint in emojione["unicode"].split("-")]),
-            "category": emojione["category"].title(),
-            "hasToneModifiers": bool(next(iter([emojidata.get("skin_variations") for emojidata in emojidata_json if emojidata["unified"].lower() == emojione["unicode"].lower()]), None)) or emojione["unicode"].split("-")[-1].lower() in tone_modifiers,
-            "isToneModifier": emojione["unicode"].split("-")[-1].lower() in tone_modifiers
-        } for key, emojione in emojione_json.items() if emojione["category"] != "modifier"
-    }
+    "categories": categories,
+    "emojis": [],
+    "categoryMap": {},
+    "emojiMap": {},
 }
+
+for category in categories:
+    emoji_dict["categoryMap"][category] = []
+
+    for emoji in emojidata:
+        if emoji["category"] == category and emoji["name"] is not None:
+            if os.path.isfile(os.path.join(os.path.dirname(__file__), "twemoji/2/svg/{}.svg".format(emoji["unified"].lower()))):
+                unicode = emoji["unified"].lower()
+            elif os.path.isfile(os.path.join(os.path.dirname(__file__), "twemoji/2/svg/{}.svg".format(emoji["non_qualified"].lower()))):
+                unicode = emoji["non_qualified"].lower()
+            else:
+                continue
+
+            name = emoji["name"].title()
+            characters = "".join([chr(int(codepoint, 16)) for codepoint in unicode.split("-")])
+            has_tone_modifiers = any(m.lower() in unicode for m in tone_modifiers)
+            is_tone_modifier = unicode.lower() in tone_modifiers
+
+            try:
+                keywords = ",".join([e["keywords"] for e in emojilib.values() if e["char"] == characters][0])
+            except IndexError:
+                keywords = ""
+
+            data = {
+                "name": name,
+                "unicode": unicode,
+                "characters": characters,
+                "category": category,
+                "hasToneModifiers": has_tone_modifiers,
+                "isToneModifier": is_tone_modifier,
+                "keywords": keywords,
+            }
+
+            emoji_dict["emojis"].append(unicode)
+            emoji_dict["categoryMap"][category].append(data)
+            emoji_dict["emojiMap"][unicode] = data
 
 with open(os.path.join(os.path.dirname(__file__), "emoji.json"), "w") as f:
     json.dump(emoji_dict, f, indent=4)

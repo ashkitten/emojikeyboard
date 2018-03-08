@@ -42,7 +42,7 @@ EmojiKeyboard::EmojiKeyboard(QWidget *parent) : QDialog(parent), ui(new Ui::Emoj
 
         EmojiContainer *container = new EmojiContainer(ui->tabs, category);
         connect(ui->emojiSize, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), container, &EmojiContainer::setEmojiSize);
-        ui->tabs->addTab(container, QIcon(iconPath), iter->toString());
+        ui->tabs->addTab(container, QIcon(iconPath), iter->toString().replace("&", "&&"));
     }
 
     EmojiContainer *searchPage = new EmojiContainer(ui->stack, QJsonArray());
